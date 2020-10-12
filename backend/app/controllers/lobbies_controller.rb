@@ -10,6 +10,18 @@ class LobbiesController < ApplicationController
     render @lobby
   end
 
+  def join
+    @lobby = Lobby.find_by(code: params[:code])
+
+    if @lobby
+      @player = @lobby.players.create(name: params[:name])
+
+      render :join
+    else
+
+    end
+  end
+
   private
 
   def lobby_params
