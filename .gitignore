@@ -1,0 +1,16 @@
+## ignoring files from frontend
+
+# node modules
+frontend/node_modules
+
+## ignoring files from backend
+
+# env files
+backend/.env
+
+# tempfiles and logfiles
+backend/log/
+backend/tmp/
+
+# environment normalization
+backend/vendor/
