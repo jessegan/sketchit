@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import About from '../components/About'
 import JoinLobbyFormContainer from './JoinLobbyFormContainer'
@@ -31,6 +32,10 @@ export class Home extends Component {
       )
     }
 
+    if(this.props.redirect){
+      return <Redirect to={this.props.redirect} />
+    }
+
     return (
       <div>
         <button onClick={()=>this.handleOpenFormButton(1)}>Create Lobby</button>
@@ -43,7 +48,10 @@ export class Home extends Component {
 }
 
 function mapStateToProps(state){
-  return { joining: state.joining }
+  return { 
+    joining: state.joining,
+    redirect: state.redirect
+  }
 }
 
 export default connect(mapStateToProps)(Home)
