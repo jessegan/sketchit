@@ -38,7 +38,7 @@ export class JoinLobbyFormContainer extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
 
-    this.props.joinLobby()
+    this.props.joinLobby(this.state)
   }
 
   render() {
@@ -52,7 +52,7 @@ export class JoinLobbyFormContainer extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    joinLobby: () => dispatch(joinLobby())
+    joinLobby: (formData) => dispatch(joinLobby(formData))
   }
 }
 
