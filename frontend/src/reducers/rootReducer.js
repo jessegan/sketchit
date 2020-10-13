@@ -1,6 +1,6 @@
 function rootReducer(state={
-  player: {},
-  lobby: {},
+  player: null,
+  lobby: null,
   joining: false
 }, action){
 
@@ -15,7 +15,8 @@ function rootReducer(state={
       return {
         player: {...action.player},
         lobby: {...action.lobby},
-        joining: false
+        joining: false,
+        redirect: `/${action.lobby.code}`
       }
     case("FAILED_JOIN_LOBBY"):
       return {
