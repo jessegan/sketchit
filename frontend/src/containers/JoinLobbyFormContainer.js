@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import JoinLobbyForm from '../components/JoinLobbyForm'
+
+import { joinLobby } from '../actions/lobbyActions'
 
 export class JoinLobbyFormContainer extends Component {
 
@@ -32,13 +35,25 @@ export class JoinLobbyFormContainer extends Component {
 
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+
+    this.props.joinLobby()
+  }
+
   render() {
     return (
       <div>
-        <JoinLobbyForm formData={ this.state } onChange={ this.handleOnChange } />
+        <JoinLobbyForm formData={ this.state } onChange={ this.handleOnChange } submit={ this.handleSubmit } />
       </div>
     )
   }
 }
 
-export default JoinLobbyFormContainer
+function mapDispatchToProps(dispatch){
+  return {
+    joinLobby: () => dispatch(joinLobby())
+  }
+}
+
+export default connect(null,mapDispatchToProps)(JoinLobbyFormContainer)
