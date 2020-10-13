@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import About from '../components/About'
 import JoinLobbyFormContainer from './JoinLobbyFormContainer'
@@ -24,6 +25,12 @@ export class Home extends Component {
   }
 
   render() {
+    if(this.props.joining){
+      return (
+        <h6>Joining Lobby...</h6>  
+      )
+    }
+
     return (
       <div>
         <button onClick={()=>this.handleOpenFormButton(1)}>Create Lobby</button>
@@ -35,4 +42,8 @@ export class Home extends Component {
   }
 }
 
-export default Home
+function mapStateToProps(state){
+  return { joining: state.joining }
+}
+
+export default connect(mapStateToProps)(Home)
