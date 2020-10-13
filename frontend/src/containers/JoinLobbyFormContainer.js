@@ -10,9 +10,26 @@ export class JoinLobbyFormContainer extends Component {
   }
 
   handleOnChange = e => {
+    let newVal = e.target.value
+
+    if(e.target.name === "code"){
+      if(e.target.value.length <= 6){
+        newVal = newVal.toUpperCase()
+      } else {
+        return
+      }
+    }
+
+    if(e.target.name === "name"){
+      if(e.target.value.length > 20){
+        return
+      }
+    }
+
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: newVal
     })
+
   }
 
   render() {
