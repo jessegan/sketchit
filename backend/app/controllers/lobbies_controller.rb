@@ -11,7 +11,7 @@ class LobbiesController < ApplicationController
   end
 
   def join
-    @lobby = Lobby.find_by(code: params[:code])
+    @lobby = Lobby.find_by(code: params[:id])
 
     if @lobby
       @player = @lobby.players.create(name: params[:name])
