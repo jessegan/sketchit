@@ -8,8 +8,7 @@ function rootReducer(state={
 
     case("START_JOIN_LOBBY"):
       return {
-        player: {},
-        lobby: {},
+        ...state,
         joining: true
       }
     case("JOIN_LOBBY"):
@@ -20,8 +19,7 @@ function rootReducer(state={
       }
     case("FAILED_JOIN_LOBBY"):
       return {
-        player: {},
-        lobby: {},
+        ...state,
         joining: false
       }
 
