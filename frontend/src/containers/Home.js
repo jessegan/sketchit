@@ -16,9 +16,9 @@ export class Home extends Component {
   }
 
   genHomeForm = () => {
-    if(this.state.homeForm == 1){
+    if(this.state.homeForm === 1){
       return 
-    } else if (this.state.homeForm == 2){
+    } else if (this.state.homeForm === 2){
       return <JoinLobbyFormContainer />
     }
   }
