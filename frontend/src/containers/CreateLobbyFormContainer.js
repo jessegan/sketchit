@@ -30,10 +30,16 @@ export class CreateLobbyFormContainer extends Component {
     })
   }
 
+  handleOnSubmit = e => {
+    e.preventDefault()
+
+    this.props.createLobby(this.state.fields)
+  }
+
   render() {
     return (
       <div>
-        <CreateLobbyForm fields={ this.state.fields } onChange={ this.handleOnChange } />
+        <CreateLobbyForm fields={ this.state.fields } onChange={ this.handleOnChange } onSubmit={ this.handleOnSubmit } />
       </div>
     )
   }
@@ -41,8 +47,8 @@ export class CreateLobbyFormContainer extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    createLobby: (name) => dispatch(createLobby(name))
+    createLobby: (formData) => dispatch(createLobby(formData))
   }
 }
 
-export default connect(mapDispatchToProps)(CreateLobbyFormContainer)
+export default connect(null,mapDispatchToProps)(CreateLobbyFormContainer)
