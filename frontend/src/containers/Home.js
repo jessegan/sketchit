@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import About from '../components/About'
 import JoinLobbyFormContainer from './JoinLobbyFormContainer'
+import CreateLobbyFormContainer from './CreateLobbyFormContainer'
 
 export class Home extends Component {
 
@@ -18,7 +19,7 @@ export class Home extends Component {
 
   genHomeForm = () => {
     if(this.state.homeForm === 1){
-      return 
+      return <CreateLobbyFormContainer />
     } else if (this.state.homeForm === 2){
       return <JoinLobbyFormContainer />
     }
