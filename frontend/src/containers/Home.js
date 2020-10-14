@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 
 import About from '../components/About'
 import JoinLobbyFormContainer from './JoinLobbyFormContainer'
@@ -30,10 +29,6 @@ export class Home extends Component {
       return (
         <h6>Joining Lobby...</h6>  
       )
-    }
-
-    if(this.props.redirect){
-      return <Redirect to={this.props.redirect} />
     }
 
     return (
