@@ -1,8 +1,8 @@
 import React from 'react'
 
-const CreateLobbyForm = ({ fields, onChange }) => {
+const CreateLobbyForm = ({ fields, onChange, onSubmit }) => {
   return (
-    <form>
+    <form onSubmit={ onSubmit }>
       Player Name
       <br></br>
       <input type='text' name='name' placeholder='Enter Name' value={ fields.name } onChange={ onChange } />
