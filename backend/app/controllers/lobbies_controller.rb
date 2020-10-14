@@ -6,8 +6,9 @@ class LobbiesController < ApplicationController
 
   def create
     @lobby = Lobby.create(lobby_params)
+    @player = Player.create(name: params[:name], lobby: @lobby)
 
-    render @lobby
+    render :join
   end
 
   def join
@@ -25,7 +26,7 @@ class LobbiesController < ApplicationController
   private
 
   def lobby_params
-    params.require(:lobby).permit(:capacity)
+    params.require(:lobby).permit(:code,:capacity)
   end
 
 end
