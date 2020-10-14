@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createLobby } from '../actions/lobbyActions'
 
 import CreateLobbyForm from '../components/CreateLobbyForm'
 
@@ -37,4 +39,10 @@ export class CreateLobbyFormContainer extends Component {
   }
 }
 
-export default CreateLobbyFormContainer
+function mapDispatchToProps(dispatch){
+  return {
+    createLobby: (name) => dispatch(createLobby(name))
+  }
+}
+
+export default connect(mapDispatchToProps)(CreateLobbyFormContainer)
