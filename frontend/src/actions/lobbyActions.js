@@ -7,8 +7,8 @@ export const joinLobby = ({ name,code }) => {
     let config = {
       method: "POST",
       headers: {
-        ContentType: 'application/json',
-        Accept: 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify({ name: name })
     }
