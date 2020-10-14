@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { updatePlayers } from '../actions/lobbyActions'
+
 export class Lobby extends Component {
+
+  componentDidMount(){
+    this.props.cableApp.lobby = this.props.cableApp.cable.subscriptions.create({
+      channel: "LobbyChannel",
+      code: this.props.lobby.code
+    },
+    {
+      received: ({ players }) => this.props.updatePlayers(players)
+    })
+  }
 
   genPlayers = () => {
     return this.props.lobby.players.map( (p,i) => {
@@ -25,4 +37,10 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps)(Lobby)
+function mapDispatchToProps(dispatch){
+  return {
+    updatePlayers: (players) => dispatch(updatePlayers(players))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Lobby)
