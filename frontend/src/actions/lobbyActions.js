@@ -47,3 +47,9 @@ export const createLobby = ({ name }) => {
       })
   }
 }
+
+export const updatePlayers = (players) => {
+  return (dispatch) => {
+    dispatch({type: "UPDATE_PLAYERS", players})
+  }
+}

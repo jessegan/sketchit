@@ -24,6 +24,16 @@ function rootReducer(state={
         ...state,
         joining: false
       }
+    
+    case("UPDATE_PLAYERS"):
+      return {
+        ...state,
+        player: {...state.player},
+        lobby: {
+          ...state.lobby, 
+          players: action.players
+        }
+      }
 
     default:
       return state
