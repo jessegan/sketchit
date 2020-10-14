@@ -14,7 +14,7 @@ class LobbiesController < ApplicationController
     @lobby = Lobby.find_by(code: params[:id])
 
     if @lobby
-      @player = @lobby.players.create(name: params[:name])
+      @player = Player.create(name: params[:name], lobby: @lobby)
 
       render :join
     else
