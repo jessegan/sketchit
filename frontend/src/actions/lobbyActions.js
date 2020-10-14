@@ -23,3 +23,27 @@ export const joinLobby = ({ name,code }) => {
       })
   }
 }
+
+export const createLobby = ({ name }) => {
+  return (dispatch) => {
+    dispatch({type: "START_JOIN_LOBBY"})
+
+    let config = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify( { name } )
+    }
+
+    fetch(`${BASEURL}/lobbies`,config)
+      .then(resp=>resp.json())
+      .then(data=> {
+        dispatch({
+          type: "JOIN_LOBBY",
+          ...data
+        })
+      })
+  }
+}
