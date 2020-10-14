@@ -7,7 +7,8 @@ class Lobby < ApplicationRecord
   # VALIDATIONS
 
   validates :code, presence: true
+  attribute :code, :string, default: -> { SecureRandom.alphanumeric(6).upcase }
 
-  attribute :capacity, default: 10
+  attribute :capacity, :integer, default: 10
 
 end
