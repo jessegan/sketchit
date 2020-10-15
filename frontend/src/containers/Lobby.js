@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import PlayersList from '../components/PlayersList'
+
 import { fetchLobby, leaveLobby } from '../actions/lobbyActions'
 import { updatePlayers } from '../actions/playerActions'
 
@@ -30,12 +32,6 @@ export class Lobby extends Component {
     window.addEventListener("beforeunload", this.onUnload)
   }
 
-  genPlayers = () => {
-    return this.props.lobby.players.map( (p,i) => {
-      return <h3 key={i}>{p.name}</h3>
-    })
-  }
-
   render() {
     if(this.props.lobby === null){
       return (<div>Loading...</div>)
@@ -43,7 +39,7 @@ export class Lobby extends Component {
     return (
       <div>
         { this.props.lobby.code }
-        { this.genPlayers() }
+        <PlayersList players={ this.props.lobby.players } />
       </div>
     )
   }
