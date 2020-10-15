@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :players, only: [:create,:destroy], defaults: {format: 'json'}
+
   mount ActionCable.server => '/cable'
 
 end
