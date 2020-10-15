@@ -1,6 +1,7 @@
 class PlayersChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    lobby = Lobby.find_by(code: params[:code])
+    stream_for lobby
   end
 
   def unsubscribed

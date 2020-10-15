@@ -10,7 +10,7 @@ export class Lobby extends Component {
     this.props.fetchLobby(this.props.lobbyCode)
 
     this.props.cableApp.lobby = this.props.cableApp.cable.subscriptions.create({
-      channel: "LobbyChannel",
+      channel: "PlayersChannel",
       code: this.props.lobbyCode
     },
     {

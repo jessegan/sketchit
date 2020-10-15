@@ -6,7 +6,7 @@ class PlayersController < ApplicationController
     if @lobby
       @player = Player.create(name: params[:name], lobby: @lobby)
 
-      LobbyChannel.broadcast_to(@lobby,{ players: @lobby.players })
+      PlayersChannel.broadcast_to(@lobby,{ players: @lobby.players })
 
       render :create
     else
