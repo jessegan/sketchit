@@ -2,7 +2,8 @@ function rootReducer(state={
   player: null,
   lobby: null,
   joining: false,
-  lobbyJoined: false
+  lobbyJoined: false,
+  lobbyCode: null
 }, action){
 
   switch(action.type){
@@ -14,15 +15,23 @@ function rootReducer(state={
       }
     case("JOIN_LOBBY"):
       return {
+        ...state,
         player: {...action.player},
-        lobby: {...action.lobby},
         joining: false,
-        lobbyJoined: true
+        lobbyJoined: true,
+        lobbyCode: action.lobbyCode
       }
     case("FAILED_JOIN_LOBBY"):
       return {
         ...state,
         joining: false
+      }
+
+    case("SET_LOBBY"):
+      return {
+        ...state,
+        player: {...state.player},
+        lobby: action.lobby
       }
     
     case("UPDATE_PLAYERS"):
