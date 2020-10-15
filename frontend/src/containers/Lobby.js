@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { updatePlayers } from '../actions/lobbyActions'
+import { updatePlayers, fetchLobby } from '../actions/lobbyActions'
 
 export class Lobby extends Component {
 
   componentDidMount(){
+    
+    this.props.fetchLobby(this.props.lobbyCode)
+
     this.props.cableApp.lobby = this.props.cableApp.cable.subscriptions.create({
       channel: "LobbyChannel",
-      code: this.props.lobby.code
+      code: this.props.lobbyCode
     },
     {
       received: ({ players }) => this.props.updatePlayers(players)
@@ -22,6 +25,9 @@ export class Lobby extends Component {
   }
 
   render() {
+    if(this.props.lobby === null){
+      return (<div>Loading...</div>)
+    }
     return (
       <div>
         { this.props.lobby.code }
@@ -33,12 +39,14 @@ export class Lobby extends Component {
 
 function mapStateToProps(state){
   return {
-    lobby: state.lobby
+    lobby: state.lobby,
+    lobbyCode: state.lobbyCode
   }
 }
 
 function mapDispatchToProps(dispatch){
   return {
+    fetchLobby: (lobbyCode) => dispatch(fetchLobby(lobbyCode)),
     updatePlayers: (players) => dispatch(updatePlayers(players))
   }
 }
