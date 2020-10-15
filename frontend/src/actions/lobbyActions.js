@@ -10,12 +10,12 @@ export const joinLobby = ({ name,code }) => {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({ name: name })
+      body: JSON.stringify({name,code})
     }
 
-    fetch(`${BASEURL}/lobbies/${code}/join`,config)
+    fetch(`${BASEURL}/players`,config)
       .then(resp => resp.json())
-      .then(data => { console.log(data)
+      .then(data => {
         dispatch({
           type: "JOIN_LOBBY",
           ...data
@@ -48,8 +48,15 @@ export const createLobby = ({ name }) => {
   }
 }
 
-export const updatePlayers = (players) => {
+export const fetchLobby = (lobbyCode) => {
   return (dispatch) => {
-    dispatch({type: "UPDATE_PLAYERS", players})
+    fetch(`http://localhost:8000/lobbies/${lobbyCode}`)
+      .then(resp=>resp.json())
+      .then(lobby=> {
+        dispatch({type: "SET_LOBBY", lobby})})
   }
+}
+
+export const updatePlayers = (players) => {
+  return {type: "UPDATE_PLAYERS", players}
 }
