@@ -34,6 +34,15 @@ function rootReducer(state={
         lobby: action.lobby
       }
     
+    case("LEAVE_LOBBY"):
+      return {
+        ...state,
+        player: null,
+        lobby: null,
+        lobbyJoined: false,
+        lobbyCode: null
+      }
+    
     case("UPDATE_PLAYERS"):
       return {
         ...state,

@@ -57,6 +57,20 @@ export const fetchLobby = (lobbyCode) => {
   }
 }
 
-export const updatePlayers = (players) => {
-  return {type: "UPDATE_PLAYERS", players}
+export const leaveLobby = (playerId) => {
+  return (dispatch) => {
+    let config = {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      keepalive: true
+    }
+
+    fetch(`${BASEURL}/players/${playerId}`,config)
+      .then(resp=>resp.json())
+      .then(data=>{
+        dispatch({type: "LEAVE_LOBBY"})
+      })
+  }
 }

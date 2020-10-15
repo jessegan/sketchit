@@ -17,4 +17,17 @@ class PlayersController < ApplicationController
     end
   end
 
+  def destroy
+    player = Player.find(params[:id])
+    lobby = player.lobby
+
+    player.destroy
+
+    if lobby.players.length > 0
+      PlayersChannel.broadcast_to(lobby, { players: lobby.players })
+    else
+      lobby.destroy
+    end
+  end
+
 end

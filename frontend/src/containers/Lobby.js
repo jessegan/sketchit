@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { updatePlayers, fetchLobby } from '../actions/lobbyActions'
+import { fetchLobby, leaveLobby } from '../actions/lobbyActions'
+import { updatePlayers } from '../actions/playerActions'
 
 export class Lobby extends Component {
+
+  onUnload = e => {
+    e.preventDefault()
+    this.props.leaveLobby(this.props.player.id)
+  }
 
   componentDidMount(){
     
@@ -16,6 +22,12 @@ export class Lobby extends Component {
     {
       received: ({ players }) => this.props.updatePlayers(players)
     })
+
+    window.addEventListener("beforeunload", this.onUnload)
+  }
+
+  componentWillUnmount(){
+    window.addEventListener("beforeunload", this.onUnload)
   }
 
   genPlayers = () => {
@@ -39,6 +51,7 @@ export class Lobby extends Component {
 
 function mapStateToProps(state){
   return {
+    player: state.player,
     lobby: state.lobby,
     lobbyCode: state.lobbyCode
   }
@@ -47,6 +60,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   return {
     fetchLobby: (lobbyCode) => dispatch(fetchLobby(lobbyCode)),
+    leaveLobby: (playerId) => dispatch(leaveLobby(playerId)),
     updatePlayers: (players) => dispatch(updatePlayers(players))
   }
 }
