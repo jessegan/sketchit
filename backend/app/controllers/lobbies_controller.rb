@@ -10,7 +10,7 @@ class LobbiesController < ApplicationController
     @lobby = Lobby.create(capacity: params[:capacity])
     @player = Player.create(name: params[:name], lobby: @lobby)
 
-    render :join
+    render :create
   end
 
 end
