@@ -8,11 +8,20 @@ import { updatePlayers } from '../actions/playerActions'
 
 export class Lobby extends Component {
 
+  /**
+   * Handles players closing window or refreshing by calling leaveLobby action
+   * @param {*} e 
+   */
   onUnload = e => {
     e.preventDefault()
     this.props.leaveLobby(this.props.player.id)
   }
 
+  /**
+   * componentDidMount lifecycle
+   * 
+   * Fetches lobby, creates consumer and subscribes to PlayersChannel for given lobby, adds beforeunload event listener
+   */
   componentDidMount(){
     
     this.props.fetchLobby(this.props.lobbyCode)
