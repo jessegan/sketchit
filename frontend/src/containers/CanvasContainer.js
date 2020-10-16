@@ -11,7 +11,7 @@ export class CanvasContainer extends Component {
   state={
     prev: [],
     color: "black",
-    width: 1,
+    size: 1,
     erasing: false,
     isDrawing: false,
     lastPositionTime: null
@@ -99,10 +99,22 @@ export class CanvasContainer extends Component {
     })
   }
 
+  /** 
+   * Handles the changing value of brush size range input by setting this.state.size to target value
+  */
+  handleSizeSlider = e => {
+    e.preventDefault() 
+
+    this.setState({
+      size: e.target.value
+    })
+  }
+
+
   draw = (ctx,x1,y1,x2,y2) => {
     ctx.beginPath()
     ctx.strokeStyle = this.state.erasing ? "white" : this.state.color
-    ctx.lineWidth = this.state.erasing ? 3*this.state.width : this.state.width
+    ctx.lineWidth = this.state.erasing ? 3*this.state.size : this.state.size
     ctx.moveTo(x1, y1)
     ctx.lineTo(x2, y2)
     ctx.stroke()
@@ -113,7 +125,7 @@ export class CanvasContainer extends Component {
     return (
       <div>
         <canvas ref={ this.canvasref } width={1000} height={500} style={{border: "1px solid"}} onMouseDown={ this.handleMouseDown } onMouseUp={ this.handleMouseUp } onMouseMove={ this.handleMouseMove } ></canvas>
-        <CanvasOptions erasing={ this.state.erasing } onClick={ this.handleEraseButton } />
+        <CanvasOptions erasing={ this.state.erasing } onClick={ this.handleEraseButton } size={ this.state.size } sizeSlider={ this.handleSizeSlider } />
       </div>
     )
   }
