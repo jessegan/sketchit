@@ -110,6 +110,13 @@ export class CanvasContainer extends Component {
     })
   }
 
+  handleColorChange = e => {
+    e.preventDefault()
+
+    this.setState({
+      color: e.target.getAttribute("name")
+    })
+  }
 
   draw = (ctx,x1,y1,x2,y2) => {
     ctx.beginPath()
@@ -125,7 +132,7 @@ export class CanvasContainer extends Component {
     return (
       <div>
         <canvas ref={ this.canvasref } width={1000} height={500} style={{border: "1px solid"}} onMouseDown={ this.handleMouseDown } onMouseUp={ this.handleMouseUp } onMouseMove={ this.handleMouseMove } ></canvas>
-        <CanvasOptions erasing={ this.state.erasing } onClick={ this.handleEraseButton } size={ this.state.size } sizeSlider={ this.handleSizeSlider } />
+        <CanvasOptions erasing={ this.state.erasing } onClick={ this.handleEraseButton } size={ this.state.size } sizeSlider={ this.handleSizeSlider } colorChange={ this.handleColorChange } />
       </div>
     )
   }
