@@ -1,17 +1,17 @@
 import React, { useRef, useEffect } from 'react'
 
-const Canvas = ({ mouseDown, mouseUp }) => {
+const Canvas = ({ mouseDown, mouseUp, mouseMove }) => {
 
-  const canvasref = useRef(null)
+  // const canvasref = useRef(null)
 
-  useEffect( () => {
-    const canvas = canvasref.current
-    const context = canvas.getContext('2d')
-  })
+  // useEffect( () => {
+  //   const canvas = canvasref.current
+  //   const context = canvas.getContext('2d')
+  // })
 
   return (
     <div>
-      <canvas ref={canvasref} width={1000} height={500} style={{border: "1px solid"}} onMouseDown={ mouseDown } ></canvas>
+      <canvas width={1000} height={500} style={{border: "1px solid"}} onMouseDown={ mouseDown } onMouseUp={ mouseUp } onMouseMove={ mouseMove } ></canvas>
     </div>
   )
 }
