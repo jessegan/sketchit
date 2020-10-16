@@ -8,7 +8,8 @@ export class CanvasContainer extends Component {
 
   state={
     prev: [],
-    isDrawing: false
+    isDrawing: false,
+    lastPositionTime: null
   }
 
   componentDidMount(){
@@ -30,9 +31,12 @@ export class CanvasContainer extends Component {
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
 
+      const d = new Date()
+
       this.setState({
         prev: [x,y],
-        isDrawing: true
+        isDrawing: true,
+        lastPositionTime: d.getTime()
       })
     }
   }
@@ -47,7 +51,9 @@ export class CanvasContainer extends Component {
   }
 
   handleMouseMove = (e,ctx) => {
-    if(this.state.isDrawing){
+    const d = new Date()
+
+    if(this.state.isDrawing && d.getTime() - this.state.lastPositionTime > 10){
       // get new coordinates
       const rect = e.target.getBoundingClientRect()
 
@@ -60,11 +66,20 @@ export class CanvasContainer extends Component {
       // Broadcast to canvas channel
 
       // set prev to current position
+      this.setState({
+        prev: [x,y]
+      })
     }
   }
 
   draw = (ctx,x1,y1,x2,y2) => {
-    console.log(`${x1},${y1} | ${x2},${y2}`)
+    ctx.beginPath();
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1;
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.closePath();
   }
 
   render() {
