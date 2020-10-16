@@ -3,6 +3,7 @@ class Lobby < ApplicationRecord
   # ASSOCIATIONS
 
   has_many :players, dependent: :destroy
+  has_one :canvas
 
   # VALIDATIONS
 
