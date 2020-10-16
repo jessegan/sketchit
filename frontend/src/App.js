@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        { this.props.lobbyJoined ? <Lobby cableApp={this.props.cableApp} /> : <Home /> }
+        { this.props.lobbyJoined ? <Lobby /> : <Home /> }
       </div>
     )
   } 

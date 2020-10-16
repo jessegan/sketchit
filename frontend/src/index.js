@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -11,13 +11,12 @@ import actionCable from 'actioncable'
 
 const store = createStore(rootReducer,applyMiddleware(thunk))
 
-const CableApp = {}
-
+export const CableApp = {}
 CableApp.cable = actionCable.createConsumer('ws://localhost:8000/cable')
 
 ReactDOM.render(
     <Provider store={ store }>
-      <App cableApp={CableApp} />
+        <App />
     </Provider>
   ,
   document.getElementById('root')
