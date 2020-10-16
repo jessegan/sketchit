@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { CableApp } from '../index'
 
 import PlayersList from '../components/PlayersList'
 import Game from './Game'
@@ -27,7 +28,7 @@ export class Lobby extends Component {
     
     this.props.fetchLobby(this.props.lobbyCode)
 
-    this.props.cableApp.lobby = this.props.cableApp.cable.subscriptions.create({
+    CableApp.players = CableApp.cable.subscriptions.create({
       channel: "PlayersChannel",
       code: this.props.lobbyCode
     },
@@ -45,6 +46,7 @@ export class Lobby extends Component {
    */
   componentWillUnmount(){
     window.addEventListener("beforeunload", this.onUnload)
+    CableApp.players.unsubscribe()
   }
 
   render() {
