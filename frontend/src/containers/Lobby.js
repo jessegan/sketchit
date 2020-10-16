@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import PlayersList from '../components/PlayersList'
+import Game from './Game'
 
 import { fetchLobby, leaveLobby } from '../actions/lobbyActions'
 import { updatePlayers } from '../actions/playerActions'
@@ -37,6 +38,11 @@ export class Lobby extends Component {
     window.addEventListener("beforeunload", this.onUnload)
   }
 
+  /**
+   * componentWillUnmount lifecycle
+   * 
+   * removes beforeunload event listener
+   */
   componentWillUnmount(){
     window.addEventListener("beforeunload", this.onUnload)
   }
@@ -49,6 +55,7 @@ export class Lobby extends Component {
       <div>
         { this.props.lobby.code }
         <PlayersList players={ this.props.lobby.players } />
+        <Game />
       </div>
     )
   }
