@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import Canvas from '../components/Canvas'
 
@@ -12,4 +13,10 @@ export class CanvasContainer extends Component {
   }
 }
 
-export default CanvasContainer
+function mapStateToProps(state){
+  return {
+    lobbyCode: state.lobbyCode
+  }
+}
+
+export default connect(mapStateToProps)(CanvasContainer)
