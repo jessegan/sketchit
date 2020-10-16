@@ -23,7 +23,7 @@ export class CanvasContainer extends Component {
       channel: "CanvasChannel",
       lobby_code: this.props.lobbyCode
     }, {
-      received: ({prev,cur}) => this.draw(this.canvasref.current.getContext('2d'),prev[0],prev[1],cur[0],cur[1])
+      received: ({prev,cur,color,size}) => this.draw(this.canvasref.current.getContext('2d'),prev[0],prev[1],cur[0],cur[1],color,size)
     })
 
   }
@@ -78,7 +78,7 @@ export class CanvasContainer extends Component {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ prev: this.state.prev, cur: [x,y] })
+        body: JSON.stringify({ prev: this.state.prev, cur: [x,y], color: this.state.color, size: this.state.size })
       }
     
       fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/draw`, config)
@@ -118,10 +118,13 @@ export class CanvasContainer extends Component {
     })
   }
 
-  draw = (ctx,x1,y1,x2,y2) => {
+  draw = (ctx,x1,y1,x2,y2,color=null,size=null) => {
+    color = color || (this.state.erasing ? "white" : this.state.color)
+    size = size || (this.state.erasing ? 3*this.state.size : this.state.size)
+
     ctx.beginPath()
-    ctx.strokeStyle = this.state.erasing ? "white" : this.state.color
-    ctx.lineWidth = this.state.erasing ? 3*this.state.size : this.state.size
+    ctx.strokeStyle = color
+    ctx.lineWidth = size
     ctx.moveTo(x1, y1)
     ctx.lineTo(x2, y2)
     ctx.stroke()
