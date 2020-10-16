@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_12_134810) do
+ActiveRecord::Schema.define(version: 2020_10_16_234701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "canvases", force: :cascade do |t|
+    t.bigint "lobby_id", null: false
+    t.string "data_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lobby_id"], name: "index_canvases_on_lobby_id"
+  end
 
   create_table "lobbies", force: :cascade do |t|
     t.string "code"
@@ -30,5 +38,6 @@ ActiveRecord::Schema.define(version: 2020_10_12_134810) do
     t.index ["lobby_id"], name: "index_players_on_lobby_id"
   end
 
+  add_foreign_key "canvases", "lobbies"
   add_foreign_key "players", "lobbies"
 end
