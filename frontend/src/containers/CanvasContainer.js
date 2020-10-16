@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CableApp } from '../index'
 
+import CanvasOptions from '../components/CanvasOptions'
+
 export class CanvasContainer extends Component {
 
   canvasref = React.createRef(null)
@@ -88,6 +90,14 @@ export class CanvasContainer extends Component {
     }
   }
 
+  handleEraseButton = e => {
+    e.preventDefault()
+
+    this.setState({
+      erasing: !this.state.erasing
+    })
+  }
+
   draw = (ctx,x1,y1,x2,y2) => {
     ctx.beginPath()
     ctx.strokeStyle = this.state.erasing ? "white" : this.state.color
@@ -102,6 +112,7 @@ export class CanvasContainer extends Component {
     return (
       <div>
         <canvas ref={ this.canvasref } width={1000} height={500} style={{border: "1px solid"}} onMouseDown={ this.handleMouseDown } onMouseUp={ this.handleMouseUp } onMouseMove={ this.handleMouseMove } ></canvas>
+        <CanvasOptions erasing={ this.state.erasing } onClick={ this.handleEraseButton } />
       </div>
     )
   }
