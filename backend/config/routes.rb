@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   resources :lobbies, only: [:show,:create,:destroy], defaults: {format: 'json'} do
     member do
-      post '/draw', to: 'canvas#show'
+      post '/draw', to: 'canvas#create'
     end    
   end
 

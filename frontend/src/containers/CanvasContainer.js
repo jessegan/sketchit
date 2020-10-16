@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CableApp } from '../index'
 
-import Canvas from '../components/Canvas'
-
 export class CanvasContainer extends Component {
+
+  canvasref = React.createRef(null)
 
   state={
     prev: [],
@@ -17,6 +17,8 @@ export class CanvasContainer extends Component {
     CableApp.canvas = CableApp.cable.subscriptions.create({
       channel: "CanvasChannel",
       lobby_code: this.props.lobbyCode
+    }, {
+      received: ({prev,cur}) => this.draw(this.canvasref.current.getContext('2d'),prev[0],prev[1],cur[0],cur[1])
     })
 
   }
@@ -46,11 +48,12 @@ export class CanvasContainer extends Component {
 
     this.setState({
       prev:[],
-      isDrawing: false
+      isDrawing: false,
+      lastPositionTime: null
     })
   }
 
-  handleMouseMove = (e,ctx) => {
+  handleMouseMove = (e) => {
     const d = new Date()
 
     if(this.state.isDrawing && d.getTime() - this.state.lastPositionTime > 10){
@@ -61,13 +64,24 @@ export class CanvasContainer extends Component {
       const y = e.clientY - rect.top
 
       // Draw line
-      this.draw(ctx, this.state.prev[0],this.state.prev[1],x,y)
+      this.draw(this.canvasref.current.getContext('2d'), this.state.prev[0],this.state.prev[1],x,y)
 
-      // Broadcast to canvas channel
+      // Broadcast to canvas channel with fetch request
+      let config = {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ prev: this.state.prev, cur: [x,y] })
+      }
+    
+      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/draw`, config)
 
       // set prev to current position
       this.setState({
-        prev: [x,y]
+        prev: [x,y],
+        lastPositionTime: d.getTime()
       })
     }
   }
@@ -85,7 +99,7 @@ export class CanvasContainer extends Component {
   render() {
     return (
       <div>
-        <Canvas mouseDown={ this.handleMouseDown } mouseUp={ this.handleMouseUp } mouseMove={ this.handleMouseMove } />
+        <canvas ref={ this.canvasref } width={1000} height={500} style={{border: "1px solid"}} onMouseDown={ this.handleMouseDown } onMouseUp={ this.handleMouseUp } onMouseMove={ this.handleMouseMove } ></canvas>
       </div>
     )
   }
