@@ -1,5 +1,12 @@
 class CanvasController < ApplicationController
 
+  def show
+    lobby = Lobby.find_by(code: params[:id])
+    @canvas = lobby.canvas
+
+    render :show
+  end
+
   def create
     lobby = Lobby.find_by(code: params[:id])
     lobby.canvas.update(data_url: params[:canvasData])
