@@ -9,6 +9,7 @@ class LobbiesController < ApplicationController
   def create
     @lobby = Lobby.create(capacity: params[:capacity])
     @player = Player.create(name: params[:name], lobby: @lobby)
+    @lobby.create_canvas
 
     render :create
   end

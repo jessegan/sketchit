@@ -72,13 +72,15 @@ export class CanvasContainer extends Component {
       this.draw(this.canvasref.current.getContext('2d'), this.state.prev[0],this.state.prev[1],x,y)
 
       // Broadcast to canvas channel with fetch request
+      const canvasData = this.canvasref.current.toDataURL()
+
       let config = {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ prev: this.state.prev, cur: [x,y], color: this.state.color, size: this.state.size })
+        body: JSON.stringify({ prev: this.state.prev, cur: [x,y], color: this.state.color, size: this.state.size, canvasData })
       }
     
       fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/draw`, config)
