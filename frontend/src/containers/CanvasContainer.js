@@ -19,22 +19,33 @@ export class CanvasContainer extends Component {
 
   componentDidMount(){
     // Load existing canvas
-    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`)
-      .then(resp=>resp.json())
-      .then(data=>{
-        if(data.data_url){
-          const img = new Image()
-          img.src = data.data_url
-          img.onload = () => this.canvasref.current.getContext('2d').drawImage(img,0,0)  
-        }
-      })
+    // fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`)
+    //   .then(resp=>resp.json())
+    //   .then(data=>{
+    //     if(data.data_url){
+    //       const img = new Image()
+    //       img.src = data.data_url
+    //       img.onload = () => this.canvasref.current.getContext('2d').drawImage(img,0,0)  
+    //     }
+    //   })
 
     // Subscribe to canvas channel
     CableApp.canvas = CableApp.cable.subscriptions.create({
       channel: "CanvasChannel",
       lobby_code: this.props.lobbyCode
     }, {
-      received: ({prev,cur,color,size}) => this.draw(this.canvasref.current.getContext('2d'),prev[0],prev[1],cur[0],cur[1],color,size)
+      received: ({ type, data }) => {
+        switch(type){
+          case("draw"):
+            this.draw(this.canvasref.current.getContext('2d'),data.prev[0],data.prev[1],data.cur[0],data.cur[1],data.color,data.size)
+            break
+          case("clear"):
+            this.clear()
+            break
+          default:
+            console.log("No action")
+        }
+      }
     })
 
   }
@@ -89,15 +100,15 @@ export class CanvasContainer extends Component {
       const size = (this.state.erasing ? 3*this.state.size : this.state.size)
 
       let config = {
-        method: "POST",
+        method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ prev: this.state.prev, cur: [x,y], color: color, size: size, canvasData })
+        body: JSON.stringify({ type: "draw", data: {prev: this.state.prev, cur: [x,y], color: color, size: size} })
       }
     
-      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/draw`, config)
+      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`, config)
 
       // set prev to current position
       this.setState({
@@ -134,6 +145,24 @@ export class CanvasContainer extends Component {
     })
   }
 
+  handleClear = e => {
+    e.preventDefault()
+
+    this.clear()
+
+    // Broadcast the clear
+    let config = {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ type: "clear" })
+    }
+  
+    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`, config)
+  }
+
   draw = (ctx,x1,y1,x2,y2,color=null,size=null) => {
     color = color || (this.state.erasing ? "white" : this.state.color)
     size = size || (this.state.erasing ? 3*this.state.size : this.state.size)
@@ -147,11 +176,17 @@ export class CanvasContainer extends Component {
     ctx.closePath()
   }
 
+  clear = () => {
+    const canvas = this.canvasref.current
+
+    canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height)
+  }
+
   render() {
     return (
       <div>
         <canvas ref={ this.canvasref } width={1000} height={500} style={{border: "1px solid"}} onMouseDown={ this.handleMouseDown } onMouseUp={ this.handleMouseUp } onMouseMove={ this.handleMouseMove } ></canvas>
-        <CanvasOptions erasing={ this.state.erasing } onClick={ this.handleEraseButton } size={ this.state.size } sizeSlider={ this.handleSizeSlider } colorChange={ this.handleColorChange } />
+        <CanvasOptions erasing={ this.state.erasing } onClick={ this.handleEraseButton } size={ this.state.size } sizeSlider={ this.handleSizeSlider } colorChange={ this.handleColorChange } clear={ this.handleClear } />
       </div>
     )
   }

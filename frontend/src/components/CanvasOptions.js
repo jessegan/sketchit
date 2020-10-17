@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CanvasOptions = ({ erasing, onClick, size, sizeSlider, colorChange }) => {
+const CanvasOptions = ({ erasing, onClick, size, sizeSlider, colorChange, clear }) => {
   const btn = erasing ? "Draw" : "Erase"
 
   const colorDivStyle = {
@@ -19,6 +19,7 @@ const CanvasOptions = ({ erasing, onClick, size, sizeSlider, colorChange }) => {
 
   return (
     <div>
+      <button onClick={ clear }>Reset</button>
       <button onClick={ onClick }>{ btn }</button>
       <input onChange={ sizeSlider } type={"range"} min={1} max={10} value={ size } />
       { genColorPallete(colors) }
