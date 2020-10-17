@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CableApp } from '../index'
+import { Redirect } from 'react-router-dom'
 
 import PlayersList from '../components/PlayersList'
 import Game from './Game'
@@ -50,6 +51,10 @@ export class Lobby extends Component {
   }
 
   render() {
+    if(this.props.player === null){
+      return (<Redirect to="/" />)
+    }
+
     if(this.props.lobby === null){
       return (<div>Loading...</div>)
     }

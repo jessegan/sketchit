@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import About from '../components/About'
 import JoinLobbyFormContainer from './JoinLobbyFormContainer'
 import CreateLobbyFormContainer from './CreateLobbyFormContainer'
+import { Redirect } from 'react-router-dom'
 
 export class Home extends Component {
 
@@ -32,6 +33,10 @@ export class Home extends Component {
       )
     }
 
+    if(this.props.lobbyJoined){
+      return (<Redirect push to={`/${this.props.lobbyCode}`} />)
+    }
+
     return (
       <div>
         <button onClick={()=>this.handleOpenFormButton(1)}>Create Lobby</button>
@@ -46,7 +51,8 @@ export class Home extends Component {
 function mapStateToProps(state){
   return { 
     joining: state.joining,
-    redirect: state.redirect
+    lobbyJoined: state.lobbyJoined,
+    lobbyCode: state.lobbyCode
   }
 }
 
