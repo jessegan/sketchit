@@ -83,7 +83,7 @@ export class CanvasContainer extends Component {
       this.draw(this.canvasref.current.getContext('2d'), this.state.prev[0],this.state.prev[1],x,y)
 
       // Broadcast to canvas channel with fetch request
-      const canvasData = this.canvasref.current.toDataURL()
+      const canvasData = this.canvasref.current.toDataURL('image/png',0.1)
 
       const color = (this.state.erasing ? "white" : this.state.color)
       const size = (this.state.erasing ? 3*this.state.size : this.state.size)
