@@ -18,6 +18,17 @@ export class CanvasContainer extends Component {
   }
 
   componentDidMount(){
+    // Load existing canvas
+    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`)
+      .then(resp=>resp.json())
+      .then(data=>{
+        if(data.data_url){
+          const img = new Image()
+          img.src = data.data_url
+          img.onload = () => this.canvasref.current.getContext('2d').drawImage(img,0,0)  
+        }
+      })
+
     // Subscribe to canvas channel
     CableApp.canvas = CableApp.cable.subscriptions.create({
       channel: "CanvasChannel",
@@ -74,13 +85,16 @@ export class CanvasContainer extends Component {
       // Broadcast to canvas channel with fetch request
       const canvasData = this.canvasref.current.toDataURL()
 
+      const color = (this.state.erasing ? "white" : this.state.color)
+      const size = (this.state.erasing ? 3*this.state.size : this.state.size)
+
       let config = {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ prev: this.state.prev, cur: [x,y], color: this.state.color, size: this.state.size, canvasData })
+        body: JSON.stringify({ prev: this.state.prev, cur: [x,y], color: color, size: size, canvasData })
       }
     
       fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/draw`, config)

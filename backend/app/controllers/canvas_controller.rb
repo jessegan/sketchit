@@ -4,12 +4,11 @@ class CanvasController < ApplicationController
     lobby = Lobby.find_by(code: params[:id])
     @canvas = lobby.canvas
 
-    render :show
+    render :'canvases/show'
   end
 
   def create
-    lobby = Lobby.find_by(code: params[:id])
-    lobby.canvas.update(data_url: params[:canvasData])
+    Lobby.find_by(code: params[:id]).canvas.update(data_url: params[:canvasData])
 
     ActionCable.server.broadcast("canvas_#{params[:id]}", {
       prev: params[:prev],
