@@ -2,41 +2,13 @@ import { createPlayer } from './playerActions'
 
 const BASEURL = "http://localhost:8000"
 
-export const joinLobby = ({ name,code }) => {
+export const joinLobbyFromForm = ( playerData ) => {
   return (dispatch) => {
-    dispatch({type: "START_JOIN_LOBBY"})
-
-    let config = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({name,code})
-    }
-
-    fetch(`${BASEURL}/players`,config)
-      .then(resp => {
-        if(resp.ok){
-          return resp.json()
-        } else{
-          throw new Error("LOBBY NOT FOUND")
-        }
-      })
-      .then(data => {
-        if(data.status !== 400){
-          dispatch({
-            type: "JOIN_LOBBY",
-            ...data
-          })
-        }
-      })
-      .catch(error => {
-        dispatch({
-          type: "FAILED_JOIN_LOBBY",
-          error: error.message
-        })
-      })
+    dispatch({
+      type: "JOIN_LOBBY",
+      code: playerData.code
+    })
+    dispatch( createPlayer(playerData) )
   }
 }
 

@@ -44,9 +44,18 @@ function rootReducer(state={
       return {
         ...state,
         joiningLobby: false,
+        playerCreated: false,
+        playerId: null,
         errors: [action.error]
       }
-
+    case("FAILED_CREATE_PLAYER"):
+      return {
+        ...state,
+        creatingPlayer: false,
+        lobbyJoined: false,
+        lobbyCode: null,
+        errors: [action.error]
+      }
     case("SET_LOBBY"):
       return {
         ...state,

@@ -17,15 +17,21 @@ export const createPlayer = (playerData) => {
     }
   
     fetch(`${BASEURL}/players`,config)
-      .then(response => {
-        if(response.ok){
-          return response.json()
+      .then(response => response.json())
+      .then(data => {
+        if(data.status === 400){
+          throw new Error(data.message)
+        } else {
+          dispatch({
+            type: "CREATE_PLAYER",
+            ...data
+          })
         }
       })
-      .then(data => {
+      .catch(error => {
         dispatch({
-          type: "CREATE_PLAYER",
-          ...data
+          type: "FAILED_CREATE_PLAYER",
+          error: error.message
         })
       })
   })

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import JoinLobbyForm from '../components/JoinLobbyForm'
 
-import { joinLobby } from '../actions/lobbyActions'
+import { joinLobbyFromForm } from '../actions/lobbyActions'
 
 export class JoinLobbyFormContainer extends Component {
 
@@ -76,7 +76,7 @@ export class JoinLobbyFormContainer extends Component {
     e.preventDefault()
 
     if(this.validateForm()){
-      this.props.joinLobby(this.state.fields)
+      this.props.joinLobbyFromForm(this.state.fields)
     }
   }
 
@@ -91,7 +91,7 @@ export class JoinLobbyFormContainer extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    joinLobby: (formData) => dispatch(joinLobby(formData))
+    joinLobbyFromForm: (formData) => dispatch(joinLobbyFromForm(formData))
   }
 }
 
