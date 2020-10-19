@@ -14,11 +14,25 @@ export const joinLobby = ({ name,code }) => {
     }
 
     fetch(`${BASEURL}/players`,config)
-      .then(resp => resp.json())
+      .then(resp => {
+        if(resp.ok){
+          return resp.json()
+        } else{
+          throw new Error("LOBBY NOT FOUND")
+        }
+      })
       .then(data => {
+        if(data.status !== 400){
+          dispatch({
+            type: "JOIN_LOBBY",
+            ...data
+          })
+        }
+      })
+      .catch(error => {
         dispatch({
-          type: "JOIN_LOBBY",
-          ...data
+          type: "FAILED_JOIN_LOBBY",
+          error: error.message
         })
       })
   }

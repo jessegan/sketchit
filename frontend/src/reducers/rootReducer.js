@@ -3,7 +3,8 @@ function rootReducer(state={
   lobby: null,
   joining: false,
   lobbyJoined: false,
-  lobbyCode: null
+  lobbyCode: null,
+  errors: []
 }, action){
 
   switch(action.type){
@@ -22,9 +23,11 @@ function rootReducer(state={
         lobbyCode: action.lobbyCode
       }
     case("FAILED_JOIN_LOBBY"):
+      console.log("FAILED JOIN")
       return {
         ...state,
-        joining: false
+        joining: false,
+        errors: [action.error]
       }
 
     case("SET_LOBBY"):
