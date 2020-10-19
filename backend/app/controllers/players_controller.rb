@@ -11,7 +11,7 @@ class PlayersController < ApplicationController
       render :create
     else
       render json: {
-        error: "Unable to find lobby",
+        message: "Unable to find lobby",
         status: 400
       }, status: 400
     end
