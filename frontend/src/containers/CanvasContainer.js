@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { CableApp } from '../index'
+import { fetchCanvas, updateCanvas, saveCanvas } from '../actions/canvasActions'
 
 import CanvasOptions from '../components/CanvasOptions'
 
@@ -19,8 +19,7 @@ export class CanvasContainer extends Component {
 
   componentDidMount(){
     // Load existing canvas
-    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`)
-      .then(resp=>resp.json())
+    fetchCanvas(this.props.lobbyCode)
       .then(data=>{
         if(data.data_url){
           const img = new Image()
@@ -97,30 +96,23 @@ export class CanvasContainer extends Component {
       const color = (this.state.erasing ? "white" : this.state.color)
       const size = (this.state.erasing ? 3*this.state.size : this.state.size)
 
-      let config = {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ type: "draw", data: {prev: this.state.prev, cur: [x,y], color: color, size: size} })
+      const updateData = {
+        code: this.props.lobbyCode,
+        type: "draw",
+        drawData: {prev: this.state.prev, cur: [x,y], color: color, size: size}
       }
-    
-      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas/draw`, config)
+
+      updateCanvas(updateData)
 
       // Save canvas on db
       const canvasData = this.canvasref.current.toDataURL('image/png',0.1)
 
-      let updateConfig = {
-        method: "PATCH",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ data: { canvasData }})
+      const saveData = {
+        code: this.props.lobbyCode,
+        canvasData
       }
 
-      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`, updateConfig)
+      saveCanvas(saveData)
 
       // set prev to current position
       this.setState({
@@ -163,16 +155,12 @@ export class CanvasContainer extends Component {
     this.clear()
 
     // Broadcast the clear
-    let config = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ type: "clear" })
+    const updateData = {
+      code: this.props.lobbyCode,
+      type: "clear"
     }
-  
-    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas/draw`, config)
+
+    updateCanvas(updateData)
   }
 
   draw = (ctx,x1,y1,x2,y2,color=null,size=null) => {
@@ -204,10 +192,5 @@ export class CanvasContainer extends Component {
   }
 }
 
-function mapStateToProps(state){
-  return {
-    lobbyCode: state.lobbyCode
-  }
-}
 
-export default connect(mapStateToProps)(CanvasContainer)
+export default CanvasContainer
