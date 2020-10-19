@@ -35,15 +35,45 @@ export class JoinLobbyFormContainer extends Component {
       fields: {
         ...this.state.fields,
         [e.target.name]: newVal
+      },
+      errors: {
+        ...this.state.errors,
+        [e.target.name]: ""
       }
     })
 
   }
 
+  validateForm = () => {
+    const fields = this.state.fields
+    const errors = {}
+
+    if(fields.name === ""){
+      errors.name = "Required field"
+    }
+
+    if(fields.code === ""){
+      errors.code = "Required field"
+    } else if(fields.code.length < 6){
+      errors.code = "Code must be 6-characters"
+    }
+
+    if(errors){
+      this.setState({
+        errors: errors
+      })
+      return false
+    }
+
+    return true
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
 
-    this.props.joinLobby(this.state)
+    if(this.validateForm()){
+      this.props.joinLobby(this.state)
+    }
   }
 
   render() {
