@@ -47,7 +47,7 @@ export class LobbyContainer extends Component {
     }
     return (
       <>
-        { this.props.playerCreated ? <Lobby /> : <CreatePlayerFormContainer /> }
+        { this.props.playerCreated ? <Lobby /> : <CreatePlayerFormContainer code={ this.props.match.params.code } /> }
       </>
     )
   }
