@@ -8,8 +8,10 @@ import { joinLobby } from '../actions/lobbyActions'
 export class JoinLobbyFormContainer extends Component {
 
   state={
-    name: "",
-    code: ""
+    fields: {    
+      name: "",
+      code: ""
+    }
   }
 
   handleOnChange = e => {
@@ -22,15 +24,17 @@ export class JoinLobbyFormContainer extends Component {
         return
       }
     }
-
-    if(e.target.name === "name"){
+    else if(e.target.name === "name"){
       if(e.target.value.length > 20){
         return
       }
     }
 
     this.setState({
-      [e.target.name]: newVal
+      fields: {
+        ...this.state.fields,
+        [e.target.name]: newVal
+      }
     })
 
   }
@@ -44,7 +48,7 @@ export class JoinLobbyFormContainer extends Component {
   render() {
     return (
       <div>
-        <JoinLobbyForm formData={ this.state } onChange={ this.handleOnChange } submit={ this.handleSubmit } />
+        <JoinLobbyForm fields={ this.state.fields } onChange={ this.handleOnChange } submit={ this.handleSubmit } />
       </div>
     )
   }
