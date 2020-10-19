@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     member do
       get '/canvas', to: 'canvas#show'
       patch '/canvas', to: 'canvas#update'
+      post '/canvas/draw', to: 'canvas#draw'
     end    
   end
 

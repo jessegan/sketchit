@@ -19,15 +19,15 @@ export class CanvasContainer extends Component {
 
   componentDidMount(){
     // Load existing canvas
-    // fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`)
-    //   .then(resp=>resp.json())
-    //   .then(data=>{
-    //     if(data.data_url){
-    //       const img = new Image()
-    //       img.src = data.data_url
-    //       img.onload = () => this.canvasref.current.getContext('2d').drawImage(img,0,0)  
-    //     }
-    //   })
+    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`)
+      .then(resp=>resp.json())
+      .then(data=>{
+        if(data.data_url){
+          const img = new Image()
+          img.src = data.data_url
+          img.onload = () => this.canvasref.current.getContext('2d').drawImage(img,0,0)  
+        }
+      })
 
     // Subscribe to canvas channel
     CableApp.canvas = CableApp.cable.subscriptions.create({
@@ -94,13 +94,11 @@ export class CanvasContainer extends Component {
       this.draw(this.canvasref.current.getContext('2d'), this.state.prev[0],this.state.prev[1],x,y)
 
       // Broadcast to canvas channel with fetch request
-      const canvasData = this.canvasref.current.toDataURL('image/png',0.1)
-
       const color = (this.state.erasing ? "white" : this.state.color)
       const size = (this.state.erasing ? 3*this.state.size : this.state.size)
 
       let config = {
-        method: "PATCH",
+        method: "POST",
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -108,7 +106,21 @@ export class CanvasContainer extends Component {
         body: JSON.stringify({ type: "draw", data: {prev: this.state.prev, cur: [x,y], color: color, size: size} })
       }
     
-      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`, config)
+      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas/draw`, config)
+
+      // Save canvas on db
+      const canvasData = this.canvasref.current.toDataURL('image/png',0.1)
+
+      let updateConfig = {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ data: { canvasData }})
+      }
+
+      fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`, updateConfig)
 
       // set prev to current position
       this.setState({
@@ -152,7 +164,7 @@ export class CanvasContainer extends Component {
 
     // Broadcast the clear
     let config = {
-      method: "PATCH",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -160,7 +172,7 @@ export class CanvasContainer extends Component {
       body: JSON.stringify({ type: "clear" })
     }
   
-    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas`, config)
+    fetch(`http://localhost:8000/lobbies/${this.props.lobbyCode}/canvas/draw`, config)
   }
 
   draw = (ctx,x1,y1,x2,y2,color=null,size=null) => {

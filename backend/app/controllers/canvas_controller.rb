@@ -7,9 +7,7 @@ class CanvasController < ApplicationController
     render :'canvases/show'
   end
 
-  def update
-    #Lobby.find_by(code: params[:id]).canvas.update(data_url: params[:canvasData])
-
+  def draw
     ActionCable.server.broadcast("canvas_#{params[:id]}", {
       type: params[:type],
       data: params[:data]
@@ -18,5 +16,7 @@ class CanvasController < ApplicationController
     render json: {message: "success"}, status: 200
   end
 
-
+  def update
+    Lobby.find_by(code: params[:id]).canvas.update(data_url: params[:data][:canvasData])
+  end
 end
