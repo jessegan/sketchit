@@ -11,7 +11,8 @@ export class JoinLobbyFormContainer extends Component {
     fields: {    
       name: "",
       code: ""
-    }
+    },
+    errors: {}
   }
 
   handleOnChange = e => {
@@ -48,7 +49,7 @@ export class JoinLobbyFormContainer extends Component {
   render() {
     return (
       <div>
-        <JoinLobbyForm fields={ this.state.fields } onChange={ this.handleOnChange } submit={ this.handleSubmit } />
+        <JoinLobbyForm fields={ this.state.fields } errors={ this.state.errors } onChange={ this.handleOnChange } submit={ this.handleSubmit } />
       </div>
     )
   }
