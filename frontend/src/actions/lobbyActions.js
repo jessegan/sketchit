@@ -42,7 +42,7 @@ export const fetchLobby = (lobbyCode) => {
   return (dispatch) => {
     dispatch({type: "START_JOIN_LOBBY"})
 
-    fetch(`http://localhost:8000/lobbies/${lobbyCode}`)
+    return fetch(`http://localhost:8000/lobbies/${lobbyCode}`)
       .then(resp=> resp.json())
       .then(data=> {
         if(data.status === 400){

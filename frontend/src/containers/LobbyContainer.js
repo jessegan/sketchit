@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CableApp } from '../index'
-import { Redirect } from 'react-router-dom'
 
 import Lobby from './Lobby'
 
 import { fetchLobby, leaveLobby } from '../actions/lobbyActions'
 import { updatePlayers } from '../actions/playerActions'
+import CreatePlayerFormContainer from './CreatePlayerFormContainer'
 
 export class LobbyContainer extends Component {
 
@@ -17,6 +17,11 @@ export class LobbyContainer extends Component {
    */
   componentDidMount(){
     this.props.fetchLobby(this.props.match.params.code)
+      .then(() => {
+        if(!this.props.lobbyJoined){
+          this.props.history.push("/")
+        }
+      })
 
     CableApp.players = CableApp.cable.subscriptions.create({
       channel: "PlayersChannel",
@@ -37,20 +42,19 @@ export class LobbyContainer extends Component {
   }
 
   render() {
-    if(!this.props.lobbyJoined && !this.props.joiningLobby){
-      return (<Redirect push to="/" />)
+    if(this.props.lobby === null){
+      return (<div>Loading...</div>)
     }
     return (
-      <div>
-        <Lobby player={ this.props.player } lobby={ this.props.lobby } />
-      </div>
+      <>
+        { this.props.playerCreated ? <Lobby /> : <CreatePlayerFormContainer /> }
+      </>
     )
   }
 }
 
 function mapStateToProps(state){
   return {
-    player: state.player,
     lobby: state.lobby,
     joiningLobby: state.joiningLobby,
     lobbyJoined: state.lobbyJoined,
