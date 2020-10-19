@@ -47,18 +47,22 @@ export class JoinLobbyFormContainer extends Component {
   validateForm = () => {
     const fields = this.state.fields
     const errors = {}
+    let passed = true
 
     if(fields.name === ""){
       errors.name = "Required field"
+      passed = false
     }
 
     if(fields.code === ""){
       errors.code = "Required field"
+      passed = false
     } else if(fields.code.length < 6){
       errors.code = "Code must be 6-characters"
+      passed = false
     }
 
-    if(errors){
+    if(!passed){
       this.setState({
         errors: errors
       })
@@ -72,7 +76,7 @@ export class JoinLobbyFormContainer extends Component {
     e.preventDefault()
 
     if(this.validateForm()){
-      this.props.joinLobby(this.state)
+      this.props.joinLobby(this.state.fields)
     }
   }
 
