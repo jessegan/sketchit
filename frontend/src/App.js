@@ -4,7 +4,7 @@ import './App.css';
 
 import Header from './components/Header'
 import Home from './containers/Home'
-import Lobby from './containers/Lobby'
+import LobbyContainer from './containers/LobbyContainer'
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route exact path="/:code" render={ routerProps => <Lobby {...routerProps} /> } />
+        <Route exact path="/:code" render={ routerProps => <LobbyContainer {...routerProps} /> } />
       </Router>
     </div>
   )

@@ -40,16 +40,17 @@ export const createLobbyFromForm = ( { lobbyData, playerData } ) => {
 
 export const fetchLobby = (lobbyCode) => {
   return (dispatch) => {
+    dispatch({type: "START_JOIN_LOBBY"})
+
     fetch(`http://localhost:8000/lobbies/${lobbyCode}`)
-      .then(resp=>{
-        if(resp.ok){
-          return resp.json()
+      .then(resp=> resp.json())
+      .then(data=> {
+        if(data.status === 400){
+          throw new Error(data.message)
         } else {
-          throw new Error("CAN'T JOIN LOBBY")
+          dispatch({type: "SET_LOBBY", lobby: data })}
         }
-      })
-      .then(lobby=> {
-        dispatch({type: "SET_LOBBY", lobby})})
+      )
       .catch(error => {
         dispatch({
           type: "FAILED_JOIN_LOBBY",

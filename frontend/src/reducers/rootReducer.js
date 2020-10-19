@@ -59,7 +59,8 @@ function rootReducer(state={
     case("SET_LOBBY"):
       return {
         ...state,
-        player: {...state.player},
+        joiningLobby: false,
+        lobbyJoined: true,
         lobby: action.lobby,
         lobbyCode: action.lobby.code,
         errors: []
