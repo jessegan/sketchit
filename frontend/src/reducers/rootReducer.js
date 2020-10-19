@@ -23,7 +23,6 @@ function rootReducer(state={
         lobbyCode: action.lobbyCode
       }
     case("FAILED_JOIN_LOBBY"):
-      console.log("FAILED JOIN")
       return {
         ...state,
         joining: false,

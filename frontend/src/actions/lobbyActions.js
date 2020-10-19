@@ -65,9 +65,21 @@ export const createLobby = ({ name }) => {
 export const fetchLobby = (lobbyCode) => {
   return (dispatch) => {
     fetch(`http://localhost:8000/lobbies/${lobbyCode}`)
-      .then(resp=>resp.json())
+      .then(resp=>{
+        if(resp.ok){
+          return resp.json()
+        } else {
+          throw new Error("CAN'T JOIN LOBBY")
+        }
+      })
       .then(lobby=> {
         dispatch({type: "SET_LOBBY", lobby})})
+      .catch(error => {
+        dispatch({
+          type: "FAILED_JOIN_LOBBY",
+          error: error.message
+        })
+      })
   }
 }
 
