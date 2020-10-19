@@ -7,7 +7,7 @@ const CreateLobbyForm = ({ fields, errors, onChange, onSubmit }) => {
       <br></br>
       <input type='text' name='name' placeholder='Enter Name' value={ fields.name } onChange={ onChange } />
       <br></br>
-      { errors ? (<span style={{color: "red"}}>{ errors.message }<br></br></span>) : (<></>)}
+      { errors ? (<span style={{color: "red"}}>{ errors.name }<br></br></span>) : (<></>)}
       <input type='submit' value='Create' />
     </form>
   )

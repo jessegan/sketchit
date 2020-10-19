@@ -30,10 +30,28 @@ export class CreateLobbyFormContainer extends Component {
     })
   }
 
+  validateForm = () => {
+    const fields = this.state.fields
+
+    if(fields.name === ""){
+      this.setState({
+        errors: {
+          name: "Required field"
+        }
+      })
+
+      return false
+    }
+
+    return true
+  }
+
   handleOnSubmit = e => {
     e.preventDefault()
 
-    this.props.createLobby(this.state.fields)
+    if(this.validateForm()){
+      this.props.createLobby(this.state.fields)
+    }
   }
 
   render() {
