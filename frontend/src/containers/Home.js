@@ -27,13 +27,13 @@ export class Home extends Component {
   }
 
   render() {
-    if(this.props.joining){
+    if(this.props.joiningLobby || this.props.creatingPlayer){
       return (
-        <h6>Joining Lobby...</h6>  
+        <h6>Loading Lobby...</h6>  
       )
     }
 
-    if(this.props.lobbyJoined){
+    if(this.props.lobbyJoined && this.props.playerCreated){
       return (<Redirect push to={`/${this.props.lobbyCode}`} />)
     }
 
@@ -50,7 +50,9 @@ export class Home extends Component {
 
 function mapStateToProps(state){
   return { 
-    joining: state.joining,
+    joiningLobby: state.joiningLobby,
+    creatingPlayer: state.creatingPlayer,
+    playerCreated: state.playerCreated,
     lobbyJoined: state.lobbyJoined,
     lobbyCode: state.lobbyCode
   }

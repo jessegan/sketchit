@@ -1,3 +1,5 @@
+import { createPlayer } from './playerActions'
+
 const BASEURL = "http://localhost:8000"
 
 export const joinLobby = ({ name,code }) => {
@@ -38,7 +40,7 @@ export const joinLobby = ({ name,code }) => {
   }
 }
 
-export const createLobby = ({ name }) => {
+export const createLobbyFromForm = ( { lobbyData, playerData } ) => {
   return (dispatch) => {
     dispatch({type: "START_JOIN_LOBBY"})
 
@@ -48,7 +50,7 @@ export const createLobby = ({ name }) => {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify( { name } )
+      body: JSON.stringify( lobbyData )
     }
 
     fetch(`${BASEURL}/lobbies`,config)
@@ -58,6 +60,8 @@ export const createLobby = ({ name }) => {
           type: "JOIN_LOBBY",
           ...data
         })
+
+        dispatch( createPlayer({ ...playerData, code: data.code}) )
       })
   }
 }

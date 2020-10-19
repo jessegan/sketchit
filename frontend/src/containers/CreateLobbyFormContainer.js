@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createLobby } from '../actions/lobbyActions'
+import { createLobbyFromForm } from '../actions/lobbyActions'
 
-import CreateLobbyForm from '../components/CreateLobbyForm'
+import CreatePlayerForm from '../components/CreatePlayerForm'
 
 export class CreateLobbyFormContainer extends Component {
 
@@ -50,14 +50,18 @@ export class CreateLobbyFormContainer extends Component {
     e.preventDefault()
 
     if(this.validateForm()){
-      this.props.createLobby(this.state.fields)
+      // Create Lobby and Create player
+      this.props.createLobbyFromForm({
+        lobbyData: {},
+        playerData: this.state.fields
+      })
     }
   }
 
   render() {
     return (
       <div>
-        <CreateLobbyForm fields={ this.state.fields } errors={ this.state.errors } onChange={ this.handleOnChange } onSubmit={ this.handleOnSubmit } />
+        <CreatePlayerForm fields={ this.state.fields } errors={ this.state.errors } onChange={ this.handleOnChange } onSubmit={ this.handleOnSubmit } />
       </div>
     )
   }
@@ -65,7 +69,7 @@ export class CreateLobbyFormContainer extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    createLobby: (formData) => dispatch(createLobby(formData))
+    createLobbyFromForm: (formData) => dispatch(createLobbyFromForm(formData))
   }
 }
 

@@ -1,9 +1,12 @@
 function rootReducer(state={
   player: null,
   lobby: null,
-  joining: false,
+  joiningLobby: false,
+  creatingPlayer: false,
   lobbyJoined: false,
   lobbyCode: null,
+  playerCreated: false,
+  playerId: null,
   errors: []
 }, action){
 
@@ -12,22 +15,35 @@ function rootReducer(state={
     case("START_JOIN_LOBBY"):
       return {
         ...state,
-        joining: true,
+        joiningLobby: true,
+        errors: []
+      }
+    case("START_CREATE_PLAYER"):
+      return {
+        ...state,
+        creatingPlayer: true,
         errors: []
       }
     case("JOIN_LOBBY"):
       return {
         ...state,
-        player: {...action.player},
-        joining: false,
+        joiningLobby: false,
         lobbyJoined: true,
-        lobbyCode: action.lobbyCode,
+        lobbyCode: action.code,
+        errors: []
+      }
+    case("CREATE_PLAYER"):
+      return {
+        ...state,
+        creatingPlayer: false,
+        playerCreated: true,
+        playerId: action.id,
         errors: []
       }
     case("FAILED_JOIN_LOBBY"):
       return {
         ...state,
-        joining: false,
+        joiningLobby: false,
         errors: [action.error]
       }
 
@@ -36,6 +52,7 @@ function rootReducer(state={
         ...state,
         player: {...state.player},
         lobby: action.lobby,
+        lobbyCode: action.lobby.code,
         errors: []
       }
     

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CreateLobbyForm = ({ fields, errors, onChange, onSubmit }) => {
+const CreatePlayerForm = ({ fields, errors, onChange, onSubmit }) => {
   return (
     <form onSubmit={ onSubmit }>
       Player Name
@@ -13,4 +13,4 @@ const CreateLobbyForm = ({ fields, errors, onChange, onSubmit }) => {
   )
 }
 
-export default CreateLobbyForm
+export default CreatePlayerForm
