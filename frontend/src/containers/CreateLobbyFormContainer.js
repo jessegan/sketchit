@@ -39,7 +39,7 @@ export class CreateLobbyFormContainer extends Component {
   render() {
     return (
       <div>
-        <CreateLobbyForm fields={ this.state.fields } onChange={ this.handleOnChange } onSubmit={ this.handleOnSubmit } />
+        <CreateLobbyForm fields={ this.state.fields } errors={ this.state.errors } onChange={ this.handleOnChange } onSubmit={ this.handleOnSubmit } />
       </div>
     )
   }
