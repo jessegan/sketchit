@@ -9,7 +9,7 @@ const Header = props => {
   return (
     <>
     { props.errors.length > 0 ? <Alert variant="warning" >{ props.errors[0]}</Alert> : <></> }
-    <img src={ logo } height="100" />
+    <a href="/"><img src={ logo } alt="Sketchit Logo" height="100" /></a>
     </>
   )
 }
