@@ -6,9 +6,11 @@ import Header from './components/Header'
 import Home from './containers/Home'
 import LobbyContainer from './containers/LobbyContainer'
 
+import Container from 'react-bootstrap/Container'
+
 const App = () => {
   return (
-    <div className="App">
+    <Container className="App">
       <Header />
       <Router>
         <Route exact path="/">
@@ -16,7 +18,7 @@ const App = () => {
         </Route>
         <Route exact path="/:code" render={ routerProps => <LobbyContainer {...routerProps} /> } />
       </Router>
-    </div>
+    </Container>
   )
 }
 
