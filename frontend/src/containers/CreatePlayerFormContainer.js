@@ -57,7 +57,6 @@ export class CreatePlayerFormContainer extends Component {
   render() {
     return (
       <div>
-        <h3>Create your player to join</h3>
         <CreatePlayerForm fields={this.state.fields} errors={this.state.errors} onChange={this.handleOnChange} onSubmit={this.handleOnSubmit} />
       </div>
     )
