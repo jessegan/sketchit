@@ -5,6 +5,11 @@ import logo from '../images/sketchit_logo.png'
 
 import Alert from 'react-bootstrap/Alert'
 
+/**
+ * Header Component
+ * 
+ * Renders app header.
+ */
 const Header = props => {
   return (
     <>

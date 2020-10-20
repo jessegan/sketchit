@@ -7,6 +7,11 @@ import { CanvasContainer } from './CanvasContainer'
 
 import Button from 'react-bootstrap/Button'
 
+/**
+ * Lobby Container
+ * 
+ * Handles displaying various components in Lobby page: CanvasContainer, PlayersList
+ */
 export class Lobby extends Component {
 
   /**
@@ -18,14 +23,19 @@ export class Lobby extends Component {
     this.props.leaveLobby(this.props.playerId)
   }
 
+  // Adds onUnload event handler to beforeunload event
   componentDidMount(){
     window.addEventListener("beforeunload", this.onUnload)
   }
 
+  // Remove beforeunload event listener from window
   componentWillUnmount(){
     window.addEventListener("beforeunload", this.onUnload)
   }
 
+  /**
+   * Copies link for current Lobby into the user's clipboard
+   */
   copyLink = () => {
     const el = document.createElement('textarea')
     el.value = `localhost:3000/${this.props.lobby.code}`

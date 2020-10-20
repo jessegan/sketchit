@@ -9,8 +9,10 @@ import rootReducer from './reducers/rootReducer'
 import thunk from 'redux-thunk'
 import actionCable from 'actioncable'
 
+// Create Redux store
 const store = createStore(rootReducer,applyMiddleware(thunk))
 
+// Create ActionCable consumer and export
 export const CableApp = {}
 CableApp.cable = actionCable.createConsumer('ws://localhost:8000/cable')
 

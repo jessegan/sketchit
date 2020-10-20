@@ -1,5 +1,10 @@
 import React from 'react'
 
+/**
+ * About component
+ * 
+ * Renders home page about section
+ */
 const About = (props) => {
   return (
     <div style={{margin: "20px 0px"}}>

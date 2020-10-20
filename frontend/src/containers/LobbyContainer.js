@@ -8,6 +8,11 @@ import { fetchLobby, leaveLobby } from '../actions/lobbyActions'
 import { updatePlayers } from '../actions/playerActions'
 import CreatePlayerFormContainer from './CreatePlayerFormContainer'
 
+/**
+ * Lobby Container
+ * 
+ * Handles loading into a lobby and settings Lobby and Player
+ */
 export class LobbyContainer extends Component {
 
   /**

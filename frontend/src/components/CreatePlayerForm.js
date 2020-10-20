@@ -3,6 +3,11 @@ import React from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+/**
+ * CreatePlayerForm Component 
+ *
+ * Renders form for user to create a new player.
+ */
 const CreatePlayerForm = ({ fields, errors, onChange, onSubmit }) => {
   return (
     <Form onSubmit={ onSubmit } style={{margin: "20px 0px"}}>

@@ -5,6 +5,11 @@ import JoinLobbyForm from '../components/JoinLobbyForm'
 
 import { joinLobbyFromForm } from '../actions/lobbyActions'
 
+/**
+ * JoinLobbyForm Container
+ * 
+ * Handles events with JoinLobbyForm Component.
+ */
 export class JoinLobbyFormContainer extends Component {
 
   state={
@@ -15,9 +20,15 @@ export class JoinLobbyFormContainer extends Component {
     errors: {}
   }
 
+  /**
+   * Handles changes in inputs on form
+   * 
+   * @param {Event} e 
+   */
   handleOnChange = e => {
     let newVal = e.target.value
 
+    //Prevents code input from being long than 6 and uppercases input
     if(e.target.name === "code"){
       if(e.target.value.length <= 6){
         newVal = newVal.toUpperCase()
@@ -25,6 +36,7 @@ export class JoinLobbyFormContainer extends Component {
         return
       }
     }
+    // Prevents name input from being longer than 20 characters
     else if(e.target.name === "name"){
       if(e.target.value.length > 20){
         return
@@ -44,6 +56,9 @@ export class JoinLobbyFormContainer extends Component {
 
   }
 
+  /**
+   * Validates state.fields and sets errors if invalid
+   */
   validateForm = () => {
     const fields = this.state.fields
     const errors = {}
@@ -72,6 +87,11 @@ export class JoinLobbyFormContainer extends Component {
     return true
   }
 
+  /**
+   * Handles submit event on form
+   * 
+   * @param {Event} e 
+   */
   handleSubmit = (e) => {
     e.preventDefault()
 

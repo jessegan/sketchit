@@ -4,6 +4,12 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+/**
+ * CanvasOptions component
+ * 
+ * Renders UI for selecting drawing options on canvas
+ */
+
 const CanvasOptions = ({ erasing, onClick, size, sizeSlider, colorChange, clear }) => {
   const btn = erasing ? "Draw" : "Erase"
 
@@ -17,6 +23,11 @@ const CanvasOptions = ({ erasing, onClick, size, sizeSlider, colorChange, clear 
 
   const colors = ["black","red","blue","green","purple","yellow","orange","brown"]
 
+  /**
+   * Returns div elements for list of colors used in color options
+   * 
+   * @param {Array} colors 
+   */
   const genColorPallete = colors => colors.map( (color,i) => {
     return (<div onClick={ colorChange } style={ {...colorDivStyle, backgroundColor: color} } name={ color } key={i}></div>)
   })

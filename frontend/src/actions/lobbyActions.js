@@ -2,6 +2,11 @@ import { createPlayer } from './playerActions'
 
 const BASEURL = "http://localhost:8000"
 
+/**
+ * Sets lobbyCode and then dispatches createPlayer action
+ * 
+ * @param {Object} playerData 
+ */
 export const joinLobbyFromForm = ( playerData ) => {
   return (dispatch) => {
     dispatch({
@@ -12,6 +17,13 @@ export const joinLobbyFromForm = ( playerData ) => {
   }
 }
 
+/**
+ * Dispatches redux actions to handle creating lobby from form. 
+ * Function will dispatch START_JOIN_LOBBY, then perform POST request to create new Lobby,
+ *  then dispatch createPlayer action with data from request.
+ * 
+ * @param {Object} param0 payload with keys { lobbyData, and playerData} 
+ */
 export const createLobbyFromForm = ( { lobbyData, playerData } ) => {
   return (dispatch) => {
     dispatch({type: "START_JOIN_LOBBY"})
@@ -38,6 +50,11 @@ export const createLobbyFromForm = ( { lobbyData, playerData } ) => {
   }
 }
 
+/**
+ * GET request to fetch Lobby with given code
+ * 
+ * @param {String} lobbyCode 
+ */
 export const fetchLobby = (lobbyCode) => {
   return (dispatch) => {
     dispatch({type: "START_JOIN_LOBBY"})
@@ -60,6 +77,11 @@ export const fetchLobby = (lobbyCode) => {
   }
 }
 
+/**
+ * DELETE request to delete player and delete lobby if empty
+ * 
+ * @param {Integer} playerId 
+ */
 export const leaveLobby = (playerId) => {
   return (dispatch) => {
     let config = {

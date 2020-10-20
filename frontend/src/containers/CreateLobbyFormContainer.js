@@ -4,6 +4,11 @@ import { createLobbyFromForm } from '../actions/lobbyActions'
 
 import CreatePlayerForm from '../components/CreatePlayerForm'
 
+/**
+ * CreateLobbyForm Container
+ * 
+ * Handles events for CreateLobbyForm Component
+ */
 export class CreateLobbyFormContainer extends Component {
 
   state = {
@@ -13,9 +18,15 @@ export class CreateLobbyFormContainer extends Component {
     errors: {}
   }
 
+  /**
+   * Handles changes in form inputs by updating state.fields. Also, validates input before setting state.
+   * 
+   * @param {Event} e 
+   */
   handleOnChange = e => {
     let newVal = e.target.value
 
+    // Prevent input from being longer than 20 characters
     if(e.target.name === "name"){
       if(newVal.length > 20){
         return
@@ -30,9 +41,13 @@ export class CreateLobbyFormContainer extends Component {
     })
   }
 
+  /**
+   * Validates state.fields before submitting. If errors, add to state.errors.
+   */
   validateForm = () => {
     const fields = this.state.fields
 
+    // check if name is empty
     if(fields.name === ""){
       this.setState({
         errors: {
@@ -46,6 +61,11 @@ export class CreateLobbyFormContainer extends Component {
     return true
   }
 
+  /**
+   * Handles submitting of form. Validates form before invoking createLobbyFromForm action.
+   * 
+   * @param {Event} e 
+   */
   handleOnSubmit = e => {
     e.preventDefault()
 

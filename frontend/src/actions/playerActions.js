@@ -1,9 +1,19 @@
 const BASEURL = "http://localhost:8000"
 
+/**
+ * Returns action to update players in current lobby
+ * 
+ * @param {Array} players 
+ */
 export const updatePlayers = (players) => {
   return {type: "UPDATE_PLAYERS", players}
 }
 
+/**
+ * POST request to create new player based on player data
+ * 
+ * @param {Object} playerData 
+ */
 export const createPlayer = (playerData) => {
   return ( dispatch => {
     dispatch({ type: "START_CREATE_PLAYER" })

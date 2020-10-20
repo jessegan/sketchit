@@ -4,10 +4,17 @@ import { fetchCanvas, updateCanvas, saveCanvas } from '../actions/canvasActions'
 
 import CanvasOptions from '../components/CanvasOptions'
 
+/**
+ * Canvas Container
+ * 
+ * Controls all Canvas options and actions with Canvas Component. Also handles connecting to CanvasChannel through ActionCable.
+ */
 export class CanvasContainer extends Component {
 
+  // creates ref to Canvas
   canvasref = React.createRef(null)
 
+  // Initial state
   state={
     prev: [],
     color: "black",
@@ -17,8 +24,11 @@ export class CanvasContainer extends Component {
     lastPositionTime: null
   }
 
+  /**
+   * Fetches lobby, subscribes to canvas channel.
+   */
   componentDidMount(){
-    // Load existing canvas
+    // Load existing canvas and draws canvas data if exists
     fetchCanvas(this.props.lobbyCode)
       .then(data=>{
         if(data.data_url){
@@ -49,10 +59,15 @@ export class CanvasContainer extends Component {
 
   }
 
+  /**
+   * Handles mouseDown event and tracks position of mouse.
+   * 
+   * @param {Event} e 
+   */
   handleMouseDown = e => {
     e.preventDefault()
 
-    // set prev to current coords and set isDrawing to true
+    // set prev to current coords and set isDrawing to true if it's left click
     if(e.button === 0){
       const rect = e.target.getBoundingClientRect()
 
@@ -69,6 +84,11 @@ export class CanvasContainer extends Component {
     }
   }
 
+  /**
+   * Handles mouseUp event by reseting state.
+   * 
+   * @param {Event} e 
+   */
   handleMouseUp = e => {
     e.preventDefault()
 
@@ -79,6 +99,11 @@ export class CanvasContainer extends Component {
     })
   }
 
+  /**
+   * Handle mouseMove event by drawing to canvas based on mouse position.
+   * 
+   * @param {Event} e 
+   */
   handleMouseMove = (e) => {
     const d = new Date()
 
@@ -122,6 +147,11 @@ export class CanvasContainer extends Component {
     }
   }
 
+  /**
+   * Handles click of erase button by toggling erasing state
+   * 
+   * @param {Event} e 
+   */
   handleEraseButton = e => {
     e.preventDefault()
 
@@ -132,6 +162,8 @@ export class CanvasContainer extends Component {
 
   /** 
    * Handles the changing value of brush size range input by setting this.state.size to target value
+   * 
+   * @param {Event} e
   */
   handleSizeSlider = e => {
     e.preventDefault() 
@@ -141,6 +173,11 @@ export class CanvasContainer extends Component {
     })
   }
 
+  /**
+   * Handles pressing color options by changing state color
+   * 
+   * @param {Event} e 
+   */
   handleColorChange = e => {
     e.preventDefault()
 
@@ -149,6 +186,11 @@ export class CanvasContainer extends Component {
     })
   }
 
+  /**
+   * Handles click of clear button by clearing canvas
+   * 
+   * @param {Event} e 
+   */
   handleClear = e => {
     e.preventDefault()
 
@@ -163,6 +205,17 @@ export class CanvasContainer extends Component {
     updateCanvas(updateData)
   }
 
+  /**
+   * Draws onto Canvas based on given settings
+   * 
+   * @param {Context} ctx Context of Canvas
+   * @param {Integer} x1 prev x coords
+   * @param {Integer} y1 prev y coords
+   * @param {Integer} x2 cur x coords
+   * @param {Integer} y2 cur y coords
+   * @param {String} color draw color
+   * @param {Integer} size draw size
+   */
   draw = (ctx,x1,y1,x2,y2,color=null,size=null) => {
     color = color || (this.state.erasing ? "white" : this.state.color)
     size = size || (this.state.erasing ? 3*this.state.size : this.state.size)
@@ -176,6 +229,9 @@ export class CanvasContainer extends Component {
     ctx.closePath()
   }
 
+  /**
+   * Clears the canvas
+   */
   clear = () => {
     const canvas = this.canvasref.current
 
