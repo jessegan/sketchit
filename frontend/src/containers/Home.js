@@ -6,25 +6,12 @@ import JoinLobbyFormContainer from './JoinLobbyFormContainer'
 import CreateLobbyFormContainer from './CreateLobbyFormContainer'
 import { Redirect } from 'react-router-dom'
 
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
 export class Home extends Component {
-
-  state={
-    homeForm: 0
-  }
-
-  handleOpenFormButton = (option) => {
-    this.setState({
-      homeForm: option
-    })
-  }
-
-  genHomeForm = () => {
-    if(this.state.homeForm === 1){
-      return <CreateLobbyFormContainer />
-    } else if (this.state.homeForm === 2){
-      return <JoinLobbyFormContainer />
-    }
-  }
 
   render() {
     if(this.props.joiningLobby || this.props.creatingPlayer){
@@ -38,12 +25,26 @@ export class Home extends Component {
     }
 
     return (
-      <div>
-        <button onClick={()=>this.handleOpenFormButton(1)}>Create Lobby</button>
-        <button onClick={()=>this.handleOpenFormButton(2)}>Join Lobby</button>
-        { this.genHomeForm() }
-        <About />
-      </div>
+      <Row className="justify-content-md-center">
+        {/* <ButtonGroup>
+          <Button variant="outline-primary" onClick={()=>this.handleOpenFormButton(1)}>Create Lobby</Button>
+          <Button variant="outline-primary" onClick={()=>this.handleOpenFormButton(2)}>Join Lobby</Button>
+        </ButtonGroup> */}
+        <Col lg="6">
+          <Tabs defaultActiveKey="about" >
+            <Tab eventKey="about" title="About">
+              <About />
+            </Tab>
+            <Tab eventKey="create" title="Create">
+              <CreateLobbyFormContainer />
+            </Tab>
+            <Tab eventKey="join" title="Join">
+              <JoinLobbyFormContainer />
+            </Tab>
+          </Tabs>
+        </Col>
+
+      </Row>
     )
   }
 }
