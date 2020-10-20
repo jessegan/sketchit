@@ -1,5 +1,9 @@
 import React from 'react'
 
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
 const CanvasOptions = ({ erasing, onClick, size, sizeSlider, colorChange, clear }) => {
   const btn = erasing ? "Draw" : "Erase"
 
@@ -18,12 +22,18 @@ const CanvasOptions = ({ erasing, onClick, size, sizeSlider, colorChange, clear 
   })
 
   return (
-    <div>
-      <button onClick={ clear }>Reset</button>
-      <button onClick={ onClick }>{ btn }</button>
-      <input onChange={ sizeSlider } type={"range"} min={1} max={10} value={ size } />
-      { genColorPallete(colors) }
-    </div>
+    <Row className='justify-content-md-center'>
+      <Col xs lg="3">
+        <Button variant="outline-secondary" size="sm" onClick={ clear }>Reset</Button>
+        <Button variant="outline-secondary" size="sm" onClick={ onClick }>{ btn }</Button>
+      </Col >
+      <Col xs lg="3">
+        <input onChange={ sizeSlider } type={"range"} min={1} max={10} value={ size } />
+      </Col>
+      <Col xs lg="3">
+        { genColorPallete(colors) }
+      </Col>
+    </Row>
   )
 }
 
