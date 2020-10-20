@@ -1,15 +1,22 @@
 import React from 'react'
 
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
 const CreatePlayerForm = ({ fields, errors, onChange, onSubmit }) => {
   return (
-    <form onSubmit={ onSubmit }>
-      Player Name
-      <br></br>
-      <input type='text' name='name' placeholder='Enter Name' value={ fields.name } onChange={ onChange } />
-      <br></br>
-      { errors ? (<span style={{color: "red"}}>{ errors.name }<br></br></span>) : (<></>)}
-      <input type='submit' value='Create' />
-    </form>
+    <Form onSubmit={ onSubmit } style={{margin: "20px 0px"}}>
+      <h3>Create Your Player</h3>
+      <Form.Row className="justify-content-md-center">
+        <Form.Group>
+          <Form.Label>Player Name</Form.Label>
+          <Form.Control type="text" name="name" placeholder='Enter Name' value={ fields.name } onChange={ onChange } autoComplete="off" />
+          { errors.name && <Form.Text className="text-danger">{ errors.name }</Form.Text>}
+        </Form.Group>
+      </Form.Row>
+
+      <Button variant="primary" type="submit">Create</Button>
+    </Form>
   )
 }
 
