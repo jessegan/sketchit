@@ -52,7 +52,7 @@ Before you continue, ensure you have met the following requirements:
 
 **Jesse Gan**
 * Github: [@jessegan](https://github.com/jessegan)
-* Medium: [@jesse.gan](https://medium.com/@jesse.gan)
+* Medium: [@jesse.gan](https://jesse-gan.medium.com/)
 
 # License
 
